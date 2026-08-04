@@ -3,18 +3,25 @@ package com.ritik.razorpay.merchant.entity;
 import com.ritik.razorpay.common.enums.BusinessType;
 import com.ritik.razorpay.common.enums.MerchantStaus;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "merchant")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Merchant {
 
+
     @Id @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID merchantId;
+    private UUID id;
 
     @Column(nullable = false, length = 200)
-    private String Name;
+    private String name;
 
     @Column(unique = true, nullable = false )
     private String email;
