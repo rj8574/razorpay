@@ -2,6 +2,7 @@ package com.ritik.razorpay.merchant.service.impl;
 
 import com.ritik.razorpay.common.enums.MerchantStaus;
 import com.ritik.razorpay.common.enums.UserRole;
+import com.ritik.razorpay.common.exception.DuplicateResourceException;
 import com.ritik.razorpay.merchant.dto.request.MerchantSignupRequest;
 import com.ritik.razorpay.merchant.dto.response.MerchantResponse;
 import com.ritik.razorpay.merchant.entity.AppUser;
@@ -9,8 +10,10 @@ import com.ritik.razorpay.merchant.entity.Merchant;
 import com.ritik.razorpay.merchant.repository.AppUserRepository;
 import com.ritik.razorpay.merchant.repository.MerchantRepository;
 import com.ritik.razorpay.merchant.service.AuthService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 
@@ -22,10 +25,12 @@ public class AuthServiceImpl implements AuthService {
     private final AppUserRepository appUserRepository;
     private final MerchantRepository merchantRepository;
     @Override
+    @Transactional
     public MerchantResponse signup(MerchantSignupRequest request) {
         if(merchantRepository.existsByEmail(request.email()))
         {
-            throw new RuntimeException("Merchant withEmail already exists "+request.email());
+            throw new DuplicateResourceException("DUPLICATE_MRECHANT_EMAIL",
+                    "Merchant withEmail already exists "+request.email());
         }
         Merchant merchant = Merchant.builder()
                 .businessName(request.businessName())
