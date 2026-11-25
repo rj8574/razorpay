@@ -1,7 +1,8 @@
 package com.ritik.razorpay.common.enums;
 
 public enum PaymentMethod {
-    CREATE,
-    UPDATE,
-    DELETE,
+    CARD,
+    NETBANKING,
+    UPI,
+    WALLET
 }

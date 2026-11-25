@@ -1,7 +1,6 @@
 package com.ritik.razorpay.operations.entity;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
 
 import java.util.UUID;
 

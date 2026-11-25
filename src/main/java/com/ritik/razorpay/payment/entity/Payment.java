@@ -1,9 +1,11 @@
-package com.ritik.razorpay.payment;
+package com.ritik.razorpay.payment.entity;
 
 import com.ritik.razorpay.common.entity.Money;
+import com.ritik.razorpay.common.entity.BaseEntity;
 import com.ritik.razorpay.common.enums.PaymentMethod;
 import com.ritik.razorpay.common.enums.PaymentStatus;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -12,13 +14,22 @@ import java.util.Map;
 import java.util.UUID;
 
 @Entity
-public class Payment {
+@Table(name = "payment",  indexes = {
+        @Index(name="idx_payment_order_id", columnList = "order_id"),
+        @Index(name = "idx_payment_merchant_id", columnList = "merchant_id")
+})
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Payment  extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "order_record", nullable = false)
+    @JoinColumn(name = "order_id", nullable = false)
     private OrderRecord order;
 
     private UUID merchantId;
@@ -33,12 +44,14 @@ public class Payment {
     @Column(nullable = false,length = 30)
     private PaymentStatus status;
     @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
+    private PaymentMethod method;
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     private Map<String, Object> methodDetails;
     @Column(length = 100)
     private String bankReference;
+    @Column(length = 100)
+    private String processorReference;
 
     @Column(length = 100)
     private String errorCode;

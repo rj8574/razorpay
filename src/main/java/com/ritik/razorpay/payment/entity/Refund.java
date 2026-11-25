@@ -1,11 +1,10 @@
-package com.ritik.razorpay.payment;
+package com.ritik.razorpay.payment.entity;
 
-import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.ritik.razorpay.common.entity.Money;
+import com.ritik.razorpay.common.entity.BaseEntity;
 import com.ritik.razorpay.common.enums.RefundStatus;
 import com.ritik.razorpay.merchant.entity.Merchant;
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -15,7 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "refund")
-public class Refund {
+public class Refund extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -33,7 +32,7 @@ public class Refund {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private RefundStatus status=RefundStatus.PENDING;
+    private RefundStatus status =RefundStatus.PENDING;
     @Column(length = 100)
     private String bankReference;
 
