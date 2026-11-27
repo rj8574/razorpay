@@ -5,6 +5,9 @@ import com.ritik.razorpay.common.enums.PaymentActor;
 import com.ritik.razorpay.common.enums.PaymentEvent;
 import com.ritik.razorpay.common.enums.PaymentStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -13,6 +16,9 @@ import java.util.UUID;
 @Table(name = "payment_transition_log",indexes = {
         @Index(name = "idx_payment_transition_log_payment_id", columnList = "payment_id")
 })
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class PaymentTransitionLog extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
